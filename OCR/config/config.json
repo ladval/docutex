@@ -1,0 +1,40 @@
+{
+    "Modules": [
+        "functions.ps1"
+    ],
+    "app": {
+        "Tesseract": {
+            "Directory": "app\\Tesseract"
+        },
+        "Pdf2img": {
+            "Directory": "app\\Pdf2img\\Library\\bin"
+        },
+        "ImageMagic": {
+            "Directory": "app\\ImageMagic"
+        }
+    },
+    "data": {
+        "Pdf2img": {
+            "img": {
+                "Directory": "app\\Pdf2img\\Library\\bin\\img"
+            }
+        },
+        "Tesseract": {
+            "pdf": {
+                "Directory": "data\\pdf"
+            },
+            "img": {
+                "Directory": "data\\img"
+            },
+            "html": {
+                "Directory": "data"
+            },
+            "hocr": {
+                "Directory": "data\\hocr"
+            },
+            "prsc": {
+                "Directory": "data\\processed"
+            }
+        }
+    }
+}

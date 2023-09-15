@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>File Upload and OCR processing</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #F5F5DC;
+            /* Creamy and clear background color */
+        }
+
+        .custom-file-upload,
+        .custom-upload-button {
+            display: inline-block;
+
+            /* Adjust the width as needed */
+        }
+
+        /* Custom file input styling */
+        .custom-file-upload,
+        .custom-upload-button {
+            display: inline-block;
+            cursor: pointer;
+            padding: 10px 20px;
+            background-color: #002F87;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            width: 150px;
+            /* Adjust the width as needed */
+            vertical-align: top;
+            /* Vertically align the buttons */
+        }
+
+        /* Hidden real file input */
+        #real-file-input {
+            display: none;
+        }
+
+        .custom-file-upload:hover,
+        .custom-upload-button:hover {
+            background-color: #375AA0;
+            /* Keep the same color on hover */
+        }
+
+
+        /* Prevent the button color from changing when clicked */
+        .custom-upload-button:active {
+            background-color: #002F87 !important;
+            /* Keep the same color when clicked */
+        }
+
+
+        .navbar {
+            background-color: #F5F5DC;
+            /* Dark blue for the navigation bar */
+        }
+
+        .navbar img {
+            display: block;
+            margin: 500 auto;
+            max-height: 25px;
+            /* Adjust the max height of the logo image */
+        }
+
+        /* Loading animation styles */
+        #loading {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .loader {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #375AA0;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .center-file-input {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <img src="https://www.nova.edu/_files/bts/images/brand-2.0/nsuflorida-web-bluegray.svg" alt="NSU Logo">
+        </div>
+    </nav>
+
+
+
+    <div class="container text-center">
+        <br>
+        <h1>Document OCR Utility for Text Extraction</h1>
+        <ul>D.O.C.U.T.E.X.</ul>
+        <br>
+        <h2>Upload a File</h2>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input type="file" name="fileToUpload" id="fileToUpload" required>
+                    </div>
+                    <button type="button" class="btn custom-upload-button" onclick="uploadFile()">Upload</button>
+                </form>
+            </div>
+        </div>
+        <div id="loading" style="display: none;">
+            <p>Loading...</p>
+            <div class="loader"></div>
+        </div><br><br>
+
+        <table class="table table-bordered" id="result">
+
+        </table>
+    </div>
+
+
+    <!-- Add Bootstrap JavaScript and jQuery (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Include your custom script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
