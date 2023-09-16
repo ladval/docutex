@@ -1,7 +1,7 @@
 # D.o.c.u.t.e.x
 ## Document OCR Utility for Text Extraction 
 
-# Student Grade Extraction and Validation System
+### Student Grade Extraction and Validation System
 
 ## Objective
 The objective of this project was to design and implement a system for extracting and validating student grades and information from scanned PDF reports. The system utilizes Optical Character Recognition (OCR) technology to accurately extract data, followed by validation processes to ensure data integrity and correctness.
