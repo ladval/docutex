@@ -5,7 +5,7 @@ $powerShellScript = 'C:\xampp\htdocs\NSU\OCR\main.ps1'; // Replace with the actu
 
 if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'], $uploadedFile)) {
     $output = shell_exec("powershell.exe -executionpolicy bypass -File \"$powerShellScript\"");
-    $response = ['success' => true, 'message' => $output];
+    $response = ['success' => true, 'message' => null];
 } else {
     $response = ['success' => false, 'message' => 'Error uploading the file.'];
 }

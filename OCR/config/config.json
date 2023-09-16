@@ -19,14 +19,16 @@
                 "Directory": "app\\Pdf2img\\Library\\bin\\img"
             }
         },
+        "ImageMagic": {
+            "img": {
+                "Directory": "data\\img"
+            }
+        },
         "Tesseract": {
             "pdf": {
                 "Directory": "data\\pdf"
             },
-            "img": {
-                "Directory": "data\\img"
-            },
-            "html": {
+            "data": {
                 "Directory": "data"
             },
             "hocr": {
