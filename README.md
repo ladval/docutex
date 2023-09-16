@@ -1,2 +1,2 @@
-# Docutex
-Document OCR Utility for Text Extraction
+# D.o.c.u.t.e.x
+## Document OCR Utility for Text Extraction 
