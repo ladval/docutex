@@ -9,7 +9,7 @@
   <meta name='ocr-capabilities' content='ocr_page ocr_carea ocr_par ocr_line ocrx_word ocrp_wconf'/>
  </head>
  <body>
-  <div class='ocr_page' id='page_1' title='image "C:\xampp\htdocs\NSU\OCR\data\img\test_4-3.tif"; bbox 0 0 2538 3289; ppageno 0; scan_res 300 300'>
+  <div class='ocr_page' id='page_1' title='image "C:\xampp\htdocs\epam\docutex\OCR\data\img\PruebaTecnica-3.tif"; bbox 0 0 2538 3289; ppageno 0; scan_res 300 300'>
    <div class='ocr_carea' id='block_1_1' title="bbox 601 31 1973 186">
     <p class='ocr_par' id='par_1_1' lang='eng' title="bbox 601 31 1973 180">
      <span class='ocr_line' id='line_1_1' title="bbox 924 31 1649 80; baseline 0 -1; x_size 53.460621; x_descenders 5.4606204; x_ascenders 16">
@@ -1094,66 +1094,6 @@
    </div>
   </div>
  <script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
-<script src="https://unpkg.com/hocrjs"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

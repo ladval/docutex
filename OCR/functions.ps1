@@ -11,13 +11,16 @@ function Convert-PDF_to_Tiff {
     $Img_Name = "$(Split-Path -Path $Img_Pdf2img_PathDirectory -Leaf)" + "\$($pdfFile_name)" 
 
     # Prepare the quoted path of the PDF file
-    $file_quoted = "`"$("$Tesseract_PDF")`""
-
+    $pdf_quoted = "`"$("$Tesseract_PDF")`""
+    $img_quoted = "`"$("$Img_Name")`""
+ 
     # Define arguments for the 'pdftoppm' command
-    $ArgumentList_Pdf2Img = "-f 1 -r 300 $($file_quoted) $($Img_Name) -tiff -overprint"
-
+    $ArgumentList_Pdf2Img = "-f 1 -r 300 $($pdf_quoted) $($img_quoted) -tiff -overprint"
+    
     # Execute 'pdftoppm' as a separate process, waiting for it to finish
-    Start-Process 'pdftoppm' -ArgumentList $ArgumentList_Pdf2Img -WorkingDirectory $Pdf2Img_PathExe -Wait -NoNewWindow
+    
+    Start-Process 'pdftoppm' -ArgumentList $ArgumentList_Pdf2Img -WorkingDirectory $Pdf2Img_PathExe -Wait
+    
 }
 
 
@@ -54,48 +57,29 @@ function Convert-Img_To_Text {
 
 
 function Send-InterfaceResponse {
-    param(
-        [String]$index,
-        [String]$pdfFile
-    )
-    try {
-        # Get a list of HOCR files from the "data" directory
-        $horcs = $(Get-Childitem $(Join-Path -Path $PSScriptRoot -ChildPath "data") | Where-Object { $_.extension -eq ".hocr" }) 
-        # Process each HOCR file
-        $horcs | ForEach-Object { 
-            $file_hocr = $_.FullName  # Get the full path of the current HOCR file
-            $hocr_data = $(Get-Content -Path $($file_hocr) -Raw)  # Read the content of the HOCR file
-            # Replace the '</body>' tag in the HOCR content with a script tag for hocrjs that transform the hocr data imto readable
-            $hocr_data -replace '</body>', $('<script src="https://unpkg.com/hocrjs"></script>' + "`n" + '</body>') | Set-Content $file_hocr
-            $output = @()  # Initialize an array to store output data
-   
-            # Process each HOCR file and emulates the html element to redirect to the extracted data files
-            $_ | ForEach-Object { 
-                $hocr_link = $("<a target='_blank' href='OCR/data/hocr/$($_.Name)'>$($pdfFile) [Pag. $([int]$($($horcs).($index)))]</a>")
-                $output += @{
-                    DocumentDate = $($_.LastWriteTime)
-                    Link         = $hocr_link 
-                }
-            } 
-
-
-
-            # Move the processed HOCR file to the destination directory
-            # Convert the output data to HTML and select specific properties for display
-            
-            # Prepare the output data for display
-            
-            $output | Format-Table -AutoSize
-            exit
-            Move-Item -Path $file_hocr -Destination $HOCR_Tesseract_PathDirectory -Force 
-            return $output
+    $tableRows = @()
+    Get-ChildItem -Path $([String]($HOCR_Tesseract_PathDirectory)) | ForEach-Object {
+        $file_hocr = $_.FullName  # Get the full path of the current HOCR file
+        $hocr_data = $(Get-Content -Path $($file_hocr) -Raw)  # Read the content of the HOCR file
+        $hocr_data -replace '</body>', $('<script src="https://unpkg.com/hocrjs"></script>' + "`n" + '</body>') | Set-Content $file_hocr
+        $row = @()
+        $_ | ForEach-Object { 
+            $row += @"
+                <td><a target='_blank' href='OCR/data/hocr/$($_.Name)'>$($($_.Name) -replace '.hocr','')</a><br>
+                <td><a target='_blank' href='OCR/data/processed/tif/$($($_.Name) -replace '.hocr','.tif')'>$($($_.Name) -replace '.hocr','')</a><br>
+                
+                <td>$($_.LastWriteTime)</td>                                                        
+"@
+            $tableRows += "<tr>$($row)</tr>"
+            $row = @()
+            # Create and display the HTML table
         }
-
     }
-    catch {
-        Get-ErrorInfo $_        
-    }
+    $htmlTable = "<tr><th>Extracted information</th><th>Image file</th><th>Datetime</th></tr>$($tableRows -join '')"
+    return "<pre>$htmlTable</pre>"
 }
+    
+
 
 
 
