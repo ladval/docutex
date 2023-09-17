@@ -70,7 +70,7 @@ try {
             # Create and display the HTML table
             $htmlTable = "<table>$($tableRows -join '')</table>"
 
-            Write-Output $htmlTable 
+            Write-Output "<pre>$htmlTable</pre>"
         }
     }
 
