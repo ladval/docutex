@@ -1,7 +1,7 @@
 # D.o.c.u.t.e.x
 ## Document OCR Utility for Text Extraction 
 
-![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+![alt text](https://github.com/ladval/docutex/blob/main/OCR/assets/img/example.png?raw=true)
 
 ### Student Grade Extraction and Validation System
 
