@@ -1,6 +1,8 @@
 # D.o.c.u.t.e.x
 ## Document OCR Utility for Text Extraction 
 
+![alt text](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+
 ### Student Grade Extraction and Validation System
 
 ## Objective
