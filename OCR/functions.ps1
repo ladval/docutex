@@ -13,7 +13,7 @@ function Convert-PDF_to_Tiff {
     # Prepare the quoted path of the PDF file
     $pdf_quoted = "`"$("$Tesseract_PDF")`""
     $img_quoted = "`"$("$Img_Name")`""
- 
+    
     # Define arguments for the 'pdftoppm' command
     $ArgumentList_Pdf2Img = "-f 1 -r 300 $($pdf_quoted) $($img_quoted) -tiff -overprint"
     
@@ -30,13 +30,22 @@ function ConvertFrom-Tiff_Format {
     Get-ChildItem -Path $([String]$($Img_Magic_PathDirectory)) |  ForEach-Object {
         # Create a quoted path for the TIFF file for use in command arguments
         $tiff_file_Magic = "`"$("$($_.FullName)")`""
-        # Define image processing arguments for ImageMagick
-        $ArgumentList_ImageMagic = "-level 30x100% -type grayscale -depth 8 -strip -background white -alpha off -units pixelsperinch -density 300 -black-threshold 87%"
-        # Combine the TIFF file path and ImageMagick arguments
-        $ArgumentList_ImageMagic = "$tiff_file_Magic $ArgumentList_ImageMagic $tiff_file_Magic"
-        # Start the ImageMagick 'convert' process to apply the specified transformations to the TIFF image
-        Start-Process "$ImageMagic_PathExe\convert.exe" -ArgumentList $ArgumentList_ImageMagic -WorkingDirectory $ImageMagic_PathExe -Wait 
+        $tif_config = $null
+        $tiff_params = $config.img_config.psobject.Properties.Name
+
+    if ($($tiff_params.Count) -eq 0) {
+        $ArgumentList_ImageMagic = "$tiff_file_Magic $tiff_file_Magic"
     }
+    else {
+        $(($config.img_config).psobject.Properties.Name) | ForEach-Object {
+            $tif_config += $("-$($_) $($($config.img_config).$($_)) " -replace '\s+', ' ')
+        } 
+        $ArgumentList_ImageMagic = "$tiff_file_Magic $tif_config $tiff_file_Magic"
+    } 
+    # Combine the TIFF file path and ImageMagick arguments
+    # Start the ImageMagick 'convert' process to apply the specified transformations to the TIFF image
+    Start-Process "$ImageMagic_PathExe\convert.exe" -ArgumentList $ArgumentList_ImageMagic -WorkingDirectory $ImageMagic_PathExe -Wait 
+}
 }
 
 
@@ -59,7 +68,10 @@ function Convert-Img_To_Text {
 function Send-InterfaceResponse {
     $tableRows = @()
     Get-ChildItem -Path $([String]($HOCR_Tesseract_PathDirectory)) | ForEach-Object {
+
         $file_hocr = $_.FullName  # Get the full path of the current HOCR file
+        $file_pdf = $($_.Name).Split("-")
+        $file_pdf = "$($file_pdf[$($file_pdf.Count) - 2]).pdf"
         $hocr_data = $(Get-Content -Path $($file_hocr) -Raw)  # Read the content of the HOCR file
         $hocr_data -replace '</body>', $('<script src="https://unpkg.com/hocrjs"></script>' + "`n" + '</body>') | Set-Content $file_hocr
         $row = @()
@@ -67,6 +79,7 @@ function Send-InterfaceResponse {
             $row += @"
                 <td><a target='_blank' href='OCR/data/hocr/$($_.Name)'>$($($_.Name) -replace '.hocr','')</a><br>
                 <td><a target='_blank' href='OCR/data/processed/tif/$($($_.Name) -replace '.hocr','.tif')'>$($($_.Name) -replace '.hocr','')</a><br>
+                <td><a target='_blank' href='OCR/data/processed/pdf/$($file_pdf)'>$($file_pdf)</a><br>
                 
                 <td>$($_.LastWriteTime)</td>                                                        
 "@
@@ -75,7 +88,7 @@ function Send-InterfaceResponse {
             # Create and display the HTML table
         }
     }
-    $htmlTable = "<tr><th>Extracted information</th><th>Image file</th><th>Datetime</th></tr>$($tableRows -join '')"
+    $htmlTable = "<tr><th>Extracted information</th><th>Image file</th><th>PDF file</th><th>Datetime</th></tr>$($tableRows -join '')"
     return "<pre>$htmlTable</pre>"
 }
     

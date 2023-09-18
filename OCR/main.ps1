@@ -1,8 +1,13 @@
+
+
+
 # Set the supported security protocols to TLS 1.2[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 $configFilePath = Join-Path -Path $PSScriptRoot -ChildPath "config\config.json"
+$Global:config = Get-Content -Path $configFilePath | ConvertFrom-Json 
+
 # Check if the configuration file exists before attempting to read it
 if (Test-Path -Path $configFilePath -PathType Leaf) {   
-    $config = Get-Content -Path $configFilePath | ConvertFrom-Json
+    $Global:config = Get-Content -Path $configFilePath | ConvertFrom-Json
     # Set various paths based on the configuration data from config.json
     [String]$Global:Img_Pdf2img_PathDirectory = $(Join-Path -Path $PSScriptRoot -ChildPath $($config.data.Pdf2img.img.Directory))
     [String]$Global:Pdf2Img_PathExe = $(Join-Path -Path $PSScriptRoot -ChildPath $($config.app.Pdf2img.Directory))
@@ -25,15 +30,16 @@ $functions = "$(Join-Path -Path $PSScriptRoot -ChildPath "functions.ps1")"
 
 $PDFS = Get-ChildItem -Path $PDF_Tesseract_PathDirectory -File -Filter "*.pdf"
 if ($PDFS.Count -lt 1) {
-    Write-Output "<pre>No files were found</pre>"
+    Write-Host "<pre>No files were found</pre>" -f red
+    exit 0
 }
 foreach ($PDF in $PDFS) {
     # Convert PDF to TIFF
     Convert-PDF_to_Tiff -pdfFile "$($PDF)"
 }
 Move-Item -Path "$($Img_Pdf2img_PathDirectory)\*.tif" -Destination "$($Img_Magic_PathDirectory)" -Force 
-Move-Item -Path "$($PDF_Tesseract_PathDirectory)\*.pdf" -Destination "$($Processed_Tesseract_PathDirectory)\pdf" -Force 
 ConvertFrom-Tiff_Format
+Move-Item -Path "$($PDF_Tesseract_PathDirectory)\*.pdf" -Destination "$($Processed_Tesseract_PathDirectory)\pdf" -Force 
 Convert-Img_To_Text 
 Move-Item -Path "$($Data_PathDirectory)\*.hocr" -Destination "$($Processed_Tesseract_PathDirectory)\hocr" -Force 
 Move-Item -Path "$($Img_Magic_PathDirectory)\*.tif" -Destination "$($Processed_Tesseract_PathDirectory)\tif" -Force 

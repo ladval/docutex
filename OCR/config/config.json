@@ -1,4 +1,16 @@
 {
+    "img_config": {
+        "level": "60x100%",
+        "type": "grayscale",
+        "depth": "8",
+        "strip": "",
+        "background": "white",
+        "alpha": "off",
+        "units": "pixelsperinch",
+        "density": "300",
+        "black-threshold": "87%",
+        "blur":  "0x0.5"
+    },
     "Modules": [
         "functions.ps1"
     ],
